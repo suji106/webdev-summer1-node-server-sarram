@@ -23,11 +23,12 @@ app.use(function (req, res, next) {
 
 var session = require('express-session')
 app.use(session({
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     cookie: {
         maxAge: 1800 * 1000,
     },
+    rolling: true,
     secret: 'any string'
 }));
 
