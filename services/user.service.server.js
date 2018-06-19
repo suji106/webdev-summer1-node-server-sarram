@@ -2,6 +2,7 @@ module.exports = function (app) {
     app.get('/api/user', findAllUsers);
     app.get('/api/user/:userId', findUserById);
     app.post('/api/user', createUser);
+    app.put('/api/user', update);
     app.get('/api/profile', profile);
     app.post('/api/logout', logout);
     app.post('/api/login', login);
@@ -33,9 +34,11 @@ module.exports = function (app) {
         var username = req.params['username'];
         var password = req.params['password'];
         userModel.findUserByCredentials2(
-            {username: username,
-            password: password}
-            )
+            {
+                username: username,
+                password: password
+            }
+        )
             .then(function (user) {
                 console.log(user);
                 res.json(user);
@@ -56,7 +59,25 @@ module.exports = function (app) {
     }
 
     function profile(req, res) {
-        res.send(req.session['currentUser']);
+        if (typeof req.session.currentUser === 'undefined') {
+            res.send(null);
+        }
+        else {
+            var userId = req.session.currentUser._id;
+            userModel.findUserById(userId)
+                .then(function (user) {
+                    res.send(user);
+                })
+        }
+    }
+
+    function update(req, res) {
+        var user = req.body;
+        userId = req.session.currentUser._id;
+        userModel.updateUser(user, userId)
+            .then(function (user) {
+                res.json(user);
+            })
     }
 
     function createUser(req, res) {
