@@ -7,7 +7,7 @@ module.exports = function (app) {
     app.post('/api/logout', logout);
     app.post('/api/login', login);
     app.get('/api/user/:username/username', findUserByUsername);
-    app.get('/api/user/:username/:password/user', findUserByUsernameAndPassword);
+    app.post('/api/user/:username/username', findUserByUsernameAndPassword);
 
     var userModel = require('../models/user/user.model.server');
 
@@ -32,11 +32,11 @@ module.exports = function (app) {
 
     function findUserByUsernameAndPassword(req, res) {
         var username = req.params['username'];
-        var password = req.params['password'];
+        var body = req.body;
         userModel.findUserByCredentials2(
             {
                 username: username,
-                password: password
+                password: body.password
             }
         )
             .then(function (user) {
