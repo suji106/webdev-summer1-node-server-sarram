@@ -11,15 +11,17 @@ function findSectionsForCourse(courseId) {
 }
 
 function deleteSection(sectionId) {
+    console.log(sectionId);
     return sectionModel.findByIdAndRemove(sectionId)
 }
 
 function updateSection(section) {
     return sectionModel.update({
-        _id: section.id
-    }, {
-        $set: {name: section.newName, seats: section.newRem, maxSeats: section.newMax}
-    });
+            _id: section.id
+        },
+        {
+            $set: {name: section.newName, seats: section.newRem, maxSeats: section.newMax}
+        });
 }
 
 function decrementSectionSeats(sectionId) {
