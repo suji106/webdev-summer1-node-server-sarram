@@ -1,7 +1,7 @@
 var express = require('express')
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/webdev-summer');
+mongoose.connect('mongodb://heroku_hcqq6j9b:nlu1vlijj3se6s2drclth282ke@ds263380.mlab.com:63380/heroku_hcqq6j9b');
 
 
 var app = express()
@@ -63,11 +63,6 @@ function getSession(req, res) {
     var value = req.session[name];
     res.send(value);
 }
-
-var userModel = require('./models/user/user.model.server');
-userModel.createUser({
-    username: 'sujith', password: 'suji'
-});
 
 var userService = require('./services/user.service.server');
 userService(app);
